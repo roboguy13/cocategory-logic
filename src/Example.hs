@@ -1,6 +1,12 @@
+{-# LANGUAGE DataKinds #-}
+
 module Example where
 
 import           Implies
 
-tripleNot :: Proof (Not (Not (Not p)) `Implies` Not p)
+test :: T |- (T `And` T)
+test = Implies
+
+testVerified :: ()
+testVerified = verify (and_elimL test)
 

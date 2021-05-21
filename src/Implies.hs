@@ -10,12 +10,14 @@
 {-# LANGUAGE TypeOperators #-}
 
 module Implies
-  (Implies -- NOTE: No data constructors are exported
+  (Implies (..)
   ,type (|-)
-  -- ,Proof
-  -- ,verify
+  ,Proof
+  ,verify
 
-  ,Cocategory(..)
+  ,Cocategory (..)
+
+  ,Prop (..)
 
   ,t_intro
   ,f_elim
@@ -49,13 +51,9 @@ instance Cocategory Implies where
 
 type (|-) = Implies
 type Proof x = x %1-> ()
--- data Proof p = Proof
 
--- verify :: (p `Implies` p) -> Proof (
--- verify = discharge
-
-test :: T |- (T `And` T)
-test = and_intro t_intro t_intro
+verify :: Proof (p `Implies` p)
+verify = discharge
 
 t_intro :: p |- T
 t_intro = Implies
