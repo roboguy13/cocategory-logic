@@ -64,7 +64,7 @@ f_elim = Implies
 and_intro :: forall x p q. (x |- p) -> (x |- q) -> (x |- (p `And` q))
 and_intro Implies Implies = Implies
 
-and_elimL :: forall x p q. (x |- (p `And` q)) -> (x |- p)
+and_elimL :: forall x p q. (x |- (p `And` q)) %1-> (x |- p)
 and_elimL Implies = Implies
 
 and_elimR :: forall x p q. (x |- (p `And` q)) -> (x |- q)

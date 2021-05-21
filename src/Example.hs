@@ -4,9 +4,6 @@ module Example where
 
 import           Implies
 
-test :: T |- (T `And` T)
-test = Implies
-
-testVerified :: ()
-testVerified = verify (and_elimL test)
+test :: Proof (T |- (T `And` T))
+test x = verify (and_elimL x)
 
