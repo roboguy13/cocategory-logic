@@ -30,7 +30,7 @@ module Implies
   ,or_elim
   ,entails_intro
   ,entails_elim
-  ,not_intro
+  ,not_form
   ,not_elim
   ,exchange
   ,weaken
@@ -87,8 +87,8 @@ entails_intro Implies = Implies
 entails_elim :: forall x p q. (x |- (p `Entails` q)) %1-> (x |- p) %1-> (x |- q)
 entails_elim Implies Implies = Implies
 
-not_intro :: forall x p q. (x |- (p `Entails` F)) %1-> (x |- Not p)
-not_intro Implies = Implies
+not_form :: forall x p q. (x |- (p `Entails` F)) %1-> (x |- Not p)
+not_form Implies = Implies
 
 not_elim :: forall x p q. (x |- Not p) %1-> (x |- p) %1-> (x |- q)
 not_elim Implies Implies = Implies
