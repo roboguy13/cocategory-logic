@@ -10,7 +10,7 @@
 {-# LANGUAGE TypeOperators #-}
 
 module Implies
-  (Implies (..)
+  (Implies  -- NOTE: No data constructors are exported for 'Implies'
   ,type (|-)
   ,Proof
   ,verify
