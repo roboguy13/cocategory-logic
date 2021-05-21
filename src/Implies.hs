@@ -94,8 +94,7 @@ not_elim :: forall x p q. (x |- Not p) %1-> (x |- p) %1-> (x |- q)
 not_elim Implies Implies = Implies
 
 
--- TODO: Are these structural rules necessary to be spelled out, or can
--- they be derived from the previous rules within this particular logic?
+-- Structural rules --
 exchange :: forall x y p. ((x `And` y) |- p) %1-> ((y `And` x) |- p)
 exchange Implies = Implies
 
