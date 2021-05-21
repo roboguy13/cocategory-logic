@@ -8,12 +8,14 @@
 {-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 
 module Implies
   (Implies  -- NOTE: No data constructors are exported for 'Implies'
   ,type (|-)
   ,Proof
   ,verify
+  -- ,decomposeCont
 
   ,Cocategory (..)
 
@@ -47,12 +49,19 @@ data Implies (p :: Prop) (q :: Prop) = Implies
 instance Cocategory Implies where
   discharge Implies = ()
 
-  decompose Implies = (Implies, Implies)
+  decompose Implies = LPair Implies Implies
+
 
 type (|-) = Implies
 type Proof x = x %1-> ()
 
-verify :: Proof (p `Implies` p)
+-- decomposeCont :: forall a b c r. (a |- c) %1-> ((a |- b) %1-> (b |- c) %1-> r) -> r
+-- decomposeCont x k = go (decompose x)
+--   where
+--     go :: ((a |- b), (b |- c)) %1-> r
+--     go (y, z) = k y z
+
+verify :: Proof (p |- p)
 verify = discharge
 
 t_intro :: p |- T
@@ -61,7 +70,7 @@ t_intro = Implies
 f_elim :: F |- q
 f_elim = Implies
 
-and_intro :: forall x p q. (x |- p) -> (x |- q) -> (x |- (p `And` q))
+and_intro :: forall x p q. (x |- p) %1-> (x |- q) %1-> (x |- (p `And` q))
 and_intro Implies Implies = Implies
 
 and_elimL :: forall x p q. (x |- (p `And` q)) %1-> (x |- p)
@@ -97,7 +106,7 @@ not_elim Implies Implies = Implies
 exchange :: forall x y p. ((x `And` y) |- p) -> ((y `And` x) |- p)
 exchange Implies = Implies
 
-weaken :: forall x y p. (x |- p) -> ((x `And` y) |- p)
+weaken :: forall x y p. (x |- p) %1-> ((x `And` y) |- p)
 weaken Implies = Implies
 
 contract :: forall x y p. ((x `And` y `And` y) |- p) -> (x `And` y |- p)
