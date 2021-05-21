@@ -49,7 +49,7 @@ data Implies (p :: Prop) (q :: Prop) = Implies
 instance Cocategory Implies where
   discharge Implies = ()
 
-  decompose Implies = LPair Implies Implies
+  decompose Implies = (Implies, Implies)
 
 
 type (|-) = Implies

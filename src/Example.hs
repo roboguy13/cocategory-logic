@@ -13,7 +13,7 @@ example1 :: Proof (p |- (p `And` p))
 example1 x = verify (and_elimL x)
 
 example2 :: forall p. Proof (p |- ((p `And` p) `And` p))
-example2 x = applyLPair (decompose x) go
+example2 x = applyPair (decompose x) go
   where
     go :: (p |- (p `And` p)) %1 -> ((p `And` p) |- ((p `And` p) `And` p)) %1 -> ()
     go y z =
