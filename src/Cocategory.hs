@@ -17,3 +17,6 @@ class Cocategory k where
   discharge :: k a a %1-> ()
   decompose :: k a c %1-> LPair (k a b) (k b c)
 
+(<.>) :: () %1-> () %1-> ()
+() <.> () = ()
+

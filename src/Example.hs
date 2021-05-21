@@ -12,6 +12,17 @@ import           Cocategory
 test :: Proof (p |- (p `And` p))
 test x = verify (and_elimL x)
 
+test2 :: forall p. Proof (p |- ((p `And` p) `And` p))
+test2 x = applyLPair (decompose x) go
+  where
+    go :: (p |- (p `And` p)) %1 -> ((p `And` p) |- ((p `And` p) `And` p)) %1 -> ()
+    go y z =
+      test y <.> lemma z
+
+    lemma :: Proof ((p `And` p) |- ((p `And` p) `And` p))
+    lemma x = verify (and_elimL x)
+
+{-
 test2 :: forall a b (c :: Prop). (a |- T) %1-> b
 test2 x = applyLPair (decompose x) go2
   where
@@ -20,6 +31,9 @@ test2 x = applyLPair (decompose x) go2
 
     go2 :: (a |- c) %1 -> (c |- 'T) %1 -> b
     go2 = undefined
+-}
+
+
   -- case decompose x of
   --   LPair y z ->
   --     let () = verify y
