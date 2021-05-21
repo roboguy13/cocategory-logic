@@ -12,6 +12,7 @@ import           Cocategory
 example1 :: Proof (p |- (p `And` p))
 example1 x = verify (and_elimL x)
 
+-- To test 'decompose':
 example2 :: forall p. Proof (p |- ((p `And` p) `And` p))
 example2 x = applyPair (decompose x) go
   where

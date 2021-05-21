@@ -15,7 +15,6 @@ module Implies
   ,type (|-)
   ,Proof
   ,verify
-  -- ,decomposeCont
 
   ,Cocategory (..)
 
@@ -54,12 +53,6 @@ instance Cocategory Implies where
 
 type (|-) = Implies
 type Proof x = x %1-> ()
-
--- decomposeCont :: forall a b c r. (a |- c) %1-> ((a |- b) %1-> (b |- c) %1-> r) -> r
--- decomposeCont x k = go (decompose x)
---   where
---     go :: ((a |- b), (b |- c)) %1-> r
---     go (y, z) = k y z
 
 verify :: Proof (p |- p)
 verify = discharge
