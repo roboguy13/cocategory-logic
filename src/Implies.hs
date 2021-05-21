@@ -13,6 +13,9 @@
 module Implies
   (Implies  -- NOTE: No data constructors are exported for 'Implies'
   ,type (|-)
+  ,type (&&)
+  ,type (||)
+  ,type (==>)
   ,Proof
   ,verify
 
@@ -52,6 +55,9 @@ instance Cocategory Implies where
 
 
 type (|-) = Implies
+type (&&) = And
+type (||) = Or
+type (==>) = Entails
 type Proof x = x %1-> ()
 
 verify :: Proof (p |- p)
