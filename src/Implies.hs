@@ -74,13 +74,6 @@ data SmtImplies p q
 verify :: Proof (p |- p)
 verify = discharge
 
-notEntails :: forall p q. (T |- Not (p `Entails` q)) -> ((p |- q) -> Void)
-notEntails prf1 prf2 =
-  let prf3 = entails_intro prf2
-      prf4 = not_elim prf1 prf3
-      prf5 = entails_elim prf4
-  in _
-
 t_intro :: p |- T
 t_intro = Implies
 
