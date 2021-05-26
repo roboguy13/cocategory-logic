@@ -9,6 +9,7 @@
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
 module Implies
   (Implies  -- NOTE: No data constructors are exported for 'Implies'
@@ -44,6 +45,8 @@ module Implies
 
 import           Cocategory
 
+import           Data.Void
+
 data Prop = T | F | Not Prop | And Prop Prop | Or Prop Prop | Entails Prop Prop
 
 data Implies (p :: Prop) (q :: Prop) = Implies
@@ -55,13 +58,28 @@ instance Cocategory Implies where
 
 
 type (|-) = Implies
+
 type (&&) = And
 type (||) = Or
 type (==>) = Entails
-type Proof x = x %1-> ()
+
+type Proof  x = x %1-> ()
+-- type Refute x = Proof x %1-> Void
+
+data SmtImplies p q
+  = SmtSat   (Proof (p |- q))
+  | SmtUnsat (Proof (T |- Not (p `Entails` q)))
+  | SmtUnknown
 
 verify :: Proof (p |- p)
 verify = discharge
+
+notEntails :: forall p q. (T |- Not (p `Entails` q)) -> ((p |- q) -> Void)
+notEntails prf1 prf2 =
+  let prf3 = entails_intro prf2
+      prf4 = not_elim prf1 prf3
+      prf5 = entails_elim prf4
+  in _
 
 t_intro :: p |- T
 t_intro = Implies
@@ -87,7 +105,10 @@ or_introR Implies = Implies
 or_elim :: forall x x' p q. (x |- (p `Or` q)) %1-> (p |- x') %1-> (q |- x') %1-> (x |- x')
 or_elim Implies Implies Implies = Implies
 
-entails_intro :: forall x p q. ((x `And` p) |- q) %1-> (x |- (p `Entails` q))
+-- entails_intro :: forall x p q. ((x `And` p) |- q) %1-> (x |- (p `Entails` q))
+-- entails_intro Implies = Implies
+
+entails_intro :: forall p q. (p |- q) %1-> (T |- (p `Entails` q))
 entails_intro Implies = Implies
 
 entails_elim :: forall x p q. (x |- (p `Entails` q)) %1-> (x |- p) %1-> (x |- q)
