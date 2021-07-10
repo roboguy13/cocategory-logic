@@ -5,12 +5,12 @@
 {-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE GADTs #-}
 
-module Cocategory where
+module CoCategory where
 
 applyPair :: (a, b) %1-> (a %1-> b %1-> r) %1-> r
 applyPair (x, y) f = f x y
 
-class Cocategory k where
+class CoCategory k where
   discharge :: k a a %1-> ()
   decompose :: k a c %1-> (k a b, k b c)
 

@@ -20,7 +20,7 @@ module Implies
   ,Proof
   ,verify
 
-  ,Cocategory (..)
+  ,CoCategory (..)
 
   ,Prop (..)
 
@@ -43,7 +43,7 @@ module Implies
   )
   where
 
-import           Cocategory
+import           CoCategory
 
 import           Data.Void
 
@@ -51,7 +51,7 @@ data Prop = T | F | Not Prop | And Prop Prop | Or Prop Prop | Entails Prop Prop
 
 data Implies (p :: Prop) (q :: Prop) = Implies
 
-instance Cocategory Implies where
+instance CoCategory Implies where
   discharge Implies = ()
 
   decompose Implies = (Implies, Implies)

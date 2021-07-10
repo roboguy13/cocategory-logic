@@ -9,7 +9,7 @@
 module Example where
 
 import           Implies
-import           Cocategory
+import           CoCategory
 
 import           Prelude.Linear ((&))
 
